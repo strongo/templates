@@ -1,0 +1,15 @@
+{%
+    BgColor string
+%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block head_title %}{BLOCK head_title}{% endblock %}</title>
+</head>
+<body style="background-color: {{ BgColor }}">
+{% block page_title %}{{ _("Welcome to page") }} {BLOCK page_title}{% endblock %}
+<hr>
+{% block menu %}{BLOCK menu}{% endblock %}
+{% block content %}{BLOCK content}{% endblock %}
+</body>
+</html>
