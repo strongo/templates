@@ -1,15 +1,14 @@
 package code
 
 import (
-	"io"
 	"github.com/strongo/templates"
 )
 
 type Layout_html interface {
-	RenderBlock_head_title(writer io.Writer) error
-	RenderBlock_page_title(writer io.Writer) error
-	RenderBlock_menu(writer io.Writer) error
-	RenderBlock_content(writer io.Writer) error
+	RenderBlock_head_title(c templates.RenderContext) error
+	RenderBlock_page_title(c templates.RenderContext) error
+	RenderBlock_menu(c templates.RenderContext) error
+	RenderBlock_content(c templates.RenderContext) error
 }
 
 type Payload_Layout_html struct {
@@ -31,51 +30,51 @@ func New_layout_html_struct(i18n templates.I18n, template Layout_html, payload P
 }
 
 
-func (layout layout_html_struct) Render(writer io.Writer, payload Payload_Layout_html) error {
-	if _, err := writer.Write([]byte("<!DOCTYPE html>\n<html>\n<head>\n<title>")); err != nil {
+func (layout layout_html_struct) Render(c templates.RenderContext, payload Payload_Layout_html) error {
+	if _, err := c.WriteString("<!DOCTYPE html>\n<html>\n<head>\n<title>"); err != nil {
 		return err
 	}
-	if err := layout.template.RenderBlock_head_title(writer); err != nil {
+	if err := layout.template.RenderBlock_head_title(c); err != nil {
 		return err
 	}
-	writer.Write([]byte("</title>\n</head>\n<body style=\"background-color: "))
-	writer.Write([]byte(payload.BgColor))
-	writer.Write([]byte(";\">\n<h1>"))
-	if _, err := writer.Write([]byte(layout.i18n.GetText("Welcome to page"))); err != nil {
+	c.WriteString("</title>\n</head>\n<body style=\"background-color: ")
+	c.WriteString(payload.BgColor)
+	c.WriteString(";\">\n<h1>")
+	if _, err := c.WriteString(layout.i18n.GetText("Welcome to page")); err != nil {
 		return err
 	}
-	writer.Write([]byte(" "))
-	if err := layout.template.RenderBlock_page_title(writer); err != nil {
+	c.WriteString(" ")
+	if err := layout.template.RenderBlock_page_title(c); err != nil {
 		return err
 	}
-	writer.Write([]byte("\n<h1>\n"))
-	if err := layout.template.RenderBlock_menu(writer); err != nil {
+	c.WriteString("\n<h1>\n")
+	if err := layout.template.RenderBlock_menu(c); err != nil {
 		return err
 	}
-	writer.Write([]byte("\n<hr/>\n"))
-	if err := layout.template.RenderBlock_content(writer); err != nil {
+	c.WriteString("\n<hr/>\n")
+	if err := layout.template.RenderBlock_content(c); err != nil {
 		return err;
 	}
-	writer.Write([]byte("\n</body>\n</html>")) // Lines 10:11
+	c.WriteString("\n</body>\n</html>") // Lines 10:11
 	return nil
 }
 
-func (t layout_html_struct) RenderBlock_head_title(writer io.Writer) error {
-	_, err := writer.Write([]byte("{BLOCK head_title}"))
+func (t layout_html_struct) RenderBlock_head_title(c templates.RenderContext) error {
+	_, err := c.WriteString("{BLOCK head_title}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_page_title(writer io.Writer) error {
-	_, err := writer.Write([]byte("{BLOCK page_title}"))
+func (t layout_html_struct) RenderBlock_page_title(c templates.RenderContext) error {
+	_, err := c.WriteString("{BLOCK page_title}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_menu(writer io.Writer) error {
-	_, err := writer.Write([]byte("{BLOCK menu}"))
+func (t layout_html_struct) RenderBlock_menu(c templates.RenderContext) error {
+	_, err := c.WriteString("{BLOCK menu}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_content(writer io.Writer) error {
-	_, err := writer.Write([]byte("{BLOCK content}"))
+func (t layout_html_struct) RenderBlock_content(c templates.RenderContext) error {
+	_, err := c.WriteString("{BLOCK content}")
 	return err
 }
