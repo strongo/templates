@@ -1,9 +1,7 @@
 package prototype
 
 import (
-//	"log"
 	"time"
-	"strconv"
 	"github.com/strongo/templates"
 )
 
@@ -12,31 +10,29 @@ type AuthorCard_Payload struct {
 }
 
 
+type AuthorCard_Data struct {
+	author *Author
+}
+
 type AuthorCard struct {
 	component *templates.StrongoComponent
 	payload AuthorCard_Payload
+	dataProvider DataProvider
 
-	author *Author
-	books []*Book
+	data AuthorCard_Data
 }
 
 func NewAuthorCard(payload AuthorCard_Payload) *AuthorCard {
 	return &AuthorCard{
 		component: templates.NewStrongoComponent(nil),
 		payload: payload,
+		dataProvider: NewDataProvider(time.Millisecond*10),
 	}
 }
 
 func (self *AuthorCard) GetData() {
-//	log.Print("GetData1: " + strconv.Itoa(self.payload.AuthorId))
 	go func(){
-//		log.Print("GetData2: " + strconv.Itoa(self.payload.AuthorId))
-		time.Sleep(time.Millisecond*1)
-		self.author = &Author{
-			Id: self.payload.AuthorId,
-			Name: "John Smith #" + strconv.Itoa(self.payload.AuthorId),
-		}
-//		log.Print("GetData: " + self.Author.Name)
+		self.data = AuthorCard_Data{author: self.dataProvider.GetAuthor(self.payload.AuthorId)}
 		self.component.OnDataReady()
 	}()
 }
@@ -48,6 +44,6 @@ func (self *AuthorCard) Render(c templates.RenderContext) {
 	c.WriteString("<div>\nAuthor: ")
 	self.component.WhenDataReady()
 //	log.Print("Render: " + self.Author.Name)
-	c.WriteString(self.author.Name)
+	c.WriteString(self.data.author.Name)
 	c.WriteString("\n</div>")
 }

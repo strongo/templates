@@ -15,14 +15,14 @@ type Payload_Layout_html struct {
 	BgColor string
 }
 
-type layout_html_struct struct {
+type layout_html struct {
 	i18n templates.I18n
 	template Layout_html
 	payload Payload_Layout_html
 }
 
-func New_layout_html_struct(i18n templates.I18n, template Layout_html, payload Payload_Layout_html) layout_html_struct {
-	return layout_html_struct{
+func New_layout_html(i18n templates.I18n, template Layout_html, payload Payload_Layout_html) layout_html {
+	return layout_html{
 		i18n: i18n,
 		template: template,
 		payload: payload,
@@ -30,7 +30,7 @@ func New_layout_html_struct(i18n templates.I18n, template Layout_html, payload P
 }
 
 
-func (layout layout_html_struct) Render(c templates.RenderContext, payload Payload_Layout_html) error {
+func (layout layout_html) Render(c templates.RenderContext, payload Payload_Layout_html) error {
 	if _, err := c.WriteString("<!DOCTYPE html>\n<html>\n<head>\n<title>"); err != nil {
 		return err
 	}
@@ -59,22 +59,22 @@ func (layout layout_html_struct) Render(c templates.RenderContext, payload Paylo
 	return nil
 }
 
-func (t layout_html_struct) RenderBlock_head_title(c templates.RenderContext) error {
+func (t layout_html) RenderBlock_head_title(c templates.RenderContext) error {
 	_, err := c.WriteString("{BLOCK head_title}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_page_title(c templates.RenderContext) error {
+func (t layout_html) RenderBlock_page_title(c templates.RenderContext) error {
 	_, err := c.WriteString("{BLOCK page_title}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_menu(c templates.RenderContext) error {
+func (t layout_html) RenderBlock_menu(c templates.RenderContext) error {
 	_, err := c.WriteString("{BLOCK menu}")
 	return err
 }
 
-func (t layout_html_struct) RenderBlock_content(c templates.RenderContext) error {
+func (t layout_html) RenderBlock_content(c templates.RenderContext) error {
 	_, err := c.WriteString("{BLOCK content}")
 	return err
 }

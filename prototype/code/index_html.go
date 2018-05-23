@@ -12,7 +12,7 @@ type Payload_Index_html struct {
 
 type Index_html struct {
 	i18n templates.I18n
-	extends layout_html_struct
+	extends layout_html
 	payload Payload_Index_html
 	component *templates.StrongoComponent
 	authorCards []*prototype.AuthorCard
@@ -36,7 +36,7 @@ func NewIndex_html(locale string, payload Payload_Index_html) templates.Template
 
 	template.component = templates.NewStrongoComponent(components)
 
-	template.extends = New_layout_html_struct(
+	template.extends = New_layout_html(
 		template.i18n,
 		template,
 		Payload_Layout_html{BgColor: payload.BgColor},
@@ -65,9 +65,11 @@ func (t Index_html) RenderBlock_page_title(c templates.RenderContext) error {
 	return err
 }
 
+/*
 func (t Index_html) RenderBlock_menu(c templates.RenderContext) error {
 	return t.extends.RenderBlock_menu(c)
 }
+*/
 
 func (t Index_html) RenderBlock_content(c templates.RenderContext) error {
 	if _, err := c.WriteString("<p>"); err != nil {

@@ -3,11 +3,12 @@ package templates
 import (
 	"io"
 //	"log"
-	"github.com/strongo/templates/text"
+//	"github.com/strongo/templates/text"
 )
 
+
 type StrongoEnvironment struct {
-	Funcs text.FuncMap
+//	Funcs text.FuncMap
 }
 
 // Defines mapping from template function name to real name.
@@ -18,7 +19,10 @@ type StrongoFunc struct {
 }
 
 type Template interface {
-	GetData()
+	Name() string  // file name
+	Path() string  // path to file (should it include file name?)
+	Source() string  // source code of the template it was parsed from
+	GetData() error
 	Render(c RenderContext) error
 }
 
@@ -32,7 +36,6 @@ type Block interface {
 
 type RenderContext struct {
 	Writer io.Writer  // current writer
-
 }
 
 func (c RenderContext) WriteString(s string) (n int, err error) {
@@ -43,7 +46,7 @@ type RenderFuture interface {
 	Render(c RenderContext)
 }
 
-type StrongTask struct {
+type StrongoTask struct {
 
 }
 

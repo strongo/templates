@@ -1,18 +1,14 @@
-{%
-extends "layout.html"
-import (
-"github.com/strongo/templates/prototype/models"
+@extends("layout.html")
+
+@import(
+    "github.com/strongo/templates/prototype/models"
 )
-func (
-    User models.User
+
+@params(
+    p1 string required
+    p2 int optional
 )
-%}
 
-
-{% block head_title %}Index.html{% endblock head_title %}
-
-{% block page_title %}Index.html!{% endblock head_title %}
-
-{% block content %}
-<p>_("Put your content here.")</p>
-{% endblock head_title %}
+{{ block header }}
+    {{ include("folder/header.html") }}
+{{ endblock }}

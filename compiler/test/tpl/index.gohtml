@@ -1,0 +1,21 @@
+@extends "layout/base.html"
+
+@import {
+    "./layout/base"
+}
+
+@params {
+    user string
+}
+
+@section title1 {
+    <title>@user homepage</title>
+}
+
+@section title2 {
+<title2>@user homepage</title2>
+}
+
+@section body {
+<p>Hello, @user!</p>
+}

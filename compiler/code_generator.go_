@@ -1,3 +1,4 @@
+/*
 package compiler2
 
 import (
@@ -65,3 +66,4 @@ type TemplateToGoCodeCompiler struct {
 func (c *TemplateToGoCodeCompiler) Compile(t text.Template, writer io.Writer) error {
 	return nil
 }
+*/
